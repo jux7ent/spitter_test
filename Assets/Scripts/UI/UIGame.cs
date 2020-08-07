@@ -4,10 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class UIGame : MonoBehaviour {
-    [SerializeField] private Button _leftMovementBtn;
-    [SerializeField] private Button _rightMovementBtn;
-    
+    [SerializeField] private PressedButton _leftMovementBtn;
+    [SerializeField] private PressedButton _rightMovementBtn;
+
     private void Start() {
-        
+        _leftMovementBtn.OnPointerPressDelegate += GameManager.instance.playerController.MoveLeft;
+        _rightMovementBtn.OnPointerPressDelegate += GameManager.instance.playerController.MoveRight;
+    }
+
+    private void Update() {
     }
 }

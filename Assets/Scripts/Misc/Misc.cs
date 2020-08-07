@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Misc : MonoBehaviour {
     public static IEnumerator LoopWithDelay(float iterationDelay, System.Action action) {
