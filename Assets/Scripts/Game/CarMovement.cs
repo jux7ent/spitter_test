@@ -5,6 +5,8 @@ using UnityEngine;
 public class CarMovement : MonoBehaviour {
     [SerializeField] private LayerMask _whatIsRoad;
 
+    private string _opTag;
+    
     private bool _isTurning = false;
     
     // optimization
@@ -19,13 +21,13 @@ public class CarMovement : MonoBehaviour {
         MoveForward();
     }
 
+    public void SetTagForObjectsPool(string opTag) {
+        _opTag = opTag;
+    }
+
     private void CheckAndSetDirectionByGround(bool instant=false) {
-        Debug.Log($"check and set direction");
-        Debug.DrawRay(transform.position, Vector3.down);
         if (Physics.Raycast(transform.position + Vector3.up, Vector3.down, out _oRaycastHit, 1f, _whatIsRoad)) {
-           // transform.localEulerAngles = _oRaycastHit.collider.transform.parent.transform.localEulerAngles + Vector3.up * -90;
-           Debug.Log($"is turning {_isTurning}"); 
-           if (!_isTurning) {
+            if (!_isTurning) {
                if (instant) {
                    transform.localEulerAngles = _oRaycastHit.collider.transform.parent.transform.localEulerAngles +
                                                 Vector3.up * -90;
@@ -44,9 +46,10 @@ public class CarMovement : MonoBehaviour {
     }
     
     void OnTriggerEnter(Collider other) {
-        Debug.Log($"trigger: {other.name}");
         if (other.CompareTag(Constants.Tags.CHANGE_DIRECTION_TRIGGER)) {
             CheckAndSetDirectionByGround();
+        } else if (other.CompareTag(Constants.Tags.DEATH_ZONE)) {
+            GameManager.instance.objectsPool.Add(_opTag, gameObject);
         }
     }
 

@@ -7,6 +7,7 @@ using UnityEngine;
 public class Constants {
     public static class Tags {
         public const string CHANGE_DIRECTION_TRIGGER = "ChangeDirectionTrigger";
+        public const string DEATH_ZONE = "DeathZone";
     }
 
     public static class Scenes {
