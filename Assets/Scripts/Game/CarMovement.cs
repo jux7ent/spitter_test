@@ -11,22 +11,29 @@ public class CarMovement : MonoBehaviour {
     private RaycastHit _oRaycastHit;
 
     private void OnEnable() {
-       // StartCoroutine(Misc.LoopWithDelay(0.1f, CheckAndSetDirectionByGround));
+        _isTurning = false;
+        CheckAndSetDirectionByGround(true); // after obj pool should set rotation
     }
     
     private void Update() {
         MoveForward();
     }
 
-    private void CheckAndSetDirectionByGround() {
+    private void CheckAndSetDirectionByGround(bool instant=false) {
         Debug.Log($"check and set direction");
         Debug.DrawRay(transform.position, Vector3.down);
         if (Physics.Raycast(transform.position + Vector3.up, Vector3.down, out _oRaycastHit, 1f, _whatIsRoad)) {
            // transform.localEulerAngles = _oRaycastHit.collider.transform.parent.transform.localEulerAngles + Vector3.up * -90;
-            if (!_isTurning) {
-                StartCoroutine(StartTurn(_oRaycastHit.collider.transform.parent.transform.localEulerAngles +
-                                         Vector3.up * -90));
-            }
+           Debug.Log($"is turning {_isTurning}"); 
+           if (!_isTurning) {
+               if (instant) {
+                   transform.localEulerAngles = _oRaycastHit.collider.transform.parent.transform.localEulerAngles +
+                                                Vector3.up * -90;
+               } else {
+                   StartCoroutine(StartTurn(_oRaycastHit.collider.transform.parent.transform.localEulerAngles +
+                                            Vector3.up * -90));
+               }
+           }
         }
     }
 
@@ -45,7 +52,8 @@ public class CarMovement : MonoBehaviour {
 
     private IEnumerator StartTurn(Vector3 endAngles) {
         _isTurning = true;
-        while (Vector3.Distance(transform.localEulerAngles, endAngles) > 0.1f) {
+        Debug.Log($"{transform.localEulerAngles.y} : {endAngles.y} : {Mathf.DeltaAngle(transform.localEulerAngles.y, endAngles.y)}");
+        while (Mathf.Abs(Mathf.DeltaAngle(transform.localEulerAngles.y, endAngles.y)) > 0.1f) {
             Vector3 angles = transform.localEulerAngles;
             angles.y = Mathf.LerpAngle(angles.y, endAngles.y, 0.125f);
             transform.localEulerAngles = angles;
