@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class Level : MonoBehaviour {
@@ -8,12 +9,17 @@ public class Level : MonoBehaviour {
     [SerializeField] private GameObject[] _rareCarPrefabs;
 
     [SerializeField] private float _spawnProbaForRareCar = 0.1f;
+
+    public float spawnDelaySec = 3f;
     
-    public void SpawnCar() {
-        GameObject selectedSpawner =
-            _carSpawners[Random.Range(0, _carSpawners.Length)];
+    public void SpawnCar() { // это бы вынести в отдельный спавнер
+        int spawnerId = Random.Range(0, _carSpawners.Length);
+        GameObject selectedSpawner = _carSpawners[spawnerId];
 
         float spawnProba = Random.Range(0f, 1f);
+        if (spawnerId == 0) { // временный костыль
+            spawnProba = 1f;
+        }
         GameObject[] carsList = spawnProba < _spawnProbaForRareCar ? _rareCarPrefabs : _usualCarPrefabs;
         
         int carIndex = Random.Range(0, carsList.Length);
@@ -22,11 +28,11 @@ public class Level : MonoBehaviour {
 
         GameObject carObj = GameManager.instance.objectsPool.Get(objPoolTag);
         if (carObj == null) {
-            carObj = Instantiate(carsList[carIndex], selectedSpawner.transform.position, Quaternion.identity);
+            carObj = Instantiate(carsList[carIndex]);
             carObj.GetComponent<CarController>().SetTagForObjectsPool(objPoolTag);
-        } else {
-            carObj.transform.position = selectedSpawner.transform.position;
         }
+
+        carObj.transform.position = selectedSpawner.transform.position;
     }
 
     private string GetObjectsPoolTag(bool isRarelyCar, int carIndex) {

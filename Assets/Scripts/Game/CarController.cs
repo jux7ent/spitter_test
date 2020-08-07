@@ -6,26 +6,41 @@ public class CarController : MonoBehaviour {
     private string _opTag;
     private Vector3 _additionVector = Vector3.up * -90; // our world inverted on this vector
     private bool _isTurning = false;
+
+    private bool _engineOn = true;
+    
+    [SerializeField] private Rigidbody _rigidbody;
     
     // optimization
     private RaycastHit _oRaycastHit;
 
     private void OnEnable() {
+        _engineOn = true;
+        _rigidbody.velocity = Vector3.zero;
+        _rigidbody.angularVelocity = Vector3.zero;
+        
         _isTurning = false;
-        transform.rotation = Quaternion.identity;
-        CheckAndSetDirectionByGround(true); // after obj pool should set rotation
+     //   CheckAndSetDirectionByGround(true); // after obj pool should set rotation
+       // transform.position = GameManager.instance.level.GetSpawnerPositionInRange(transform.position, 2f);
+       StartCoroutine(Misc.WaitAndDo(0.01f, () => CheckAndSetDirectionByGround(true)));
     }
     
     private void Update() {
-        MoveForward();
+        if (_engineOn) {
+            MoveForward();
+        }
     }
 
     public void SetTagForObjectsPool(string opTag) {
         _opTag = opTag;
     }
 
-    public void Slip() {
-        StartCoroutine(StartTurn(Vector3.up * 90f + _additionVector, 0.05f));
+    public void Slip() { // some slipping realisation
+        StartCoroutine(StartTurn(Vector3.up * 230f + _additionVector, 0.05f));
+        StartCoroutine(Misc.WaitWhile(() => _isTurning, () => {
+            _engineOn = false;
+            StartCoroutine(Misc.WaitAndDo(2f, () => GameManager.instance.objectsPool.Add(_opTag, gameObject)));
+        }));
     }
 
     private void CheckAndSetDirectionByGround(bool instant=false) {

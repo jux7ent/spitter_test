@@ -12,6 +12,6 @@ public class GameManager : SingletonGameObject<GameManager> {
     public ThrowItem throwItem;
 
     private void Start() {
-        StartCoroutine(Misc.LoopWithDelay(6f, level.SpawnCar));
+        StartCoroutine(Misc.LoopWithDelay(level.spawnDelaySec, level.SpawnCar));
     }
 }
