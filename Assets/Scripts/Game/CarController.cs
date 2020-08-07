@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CarMovement : MonoBehaviour {
-    [SerializeField] private LayerMask _whatIsRoad;
-
+public class CarController : MonoBehaviour {
     private string _opTag;
-    
+    private Vector3 _additionVector = Vector3.up * -90; // our world inverted on this vector
     private bool _isTurning = false;
     
     // optimization
@@ -14,6 +12,7 @@ public class CarMovement : MonoBehaviour {
 
     private void OnEnable() {
         _isTurning = false;
+        transform.rotation = Quaternion.identity;
         CheckAndSetDirectionByGround(true); // after obj pool should set rotation
     }
     
@@ -25,15 +24,19 @@ public class CarMovement : MonoBehaviour {
         _opTag = opTag;
     }
 
+    public void Slip() {
+        StartCoroutine(StartTurn(Vector3.up * 90f + _additionVector, 0.05f));
+    }
+
     private void CheckAndSetDirectionByGround(bool instant=false) {
-        if (Physics.Raycast(transform.position + Vector3.up, Vector3.down, out _oRaycastHit, 1f, _whatIsRoad)) {
+        if (Physics.Raycast(transform.position + Vector3.up, Vector3.down, out _oRaycastHit, 1f, GameManager.instance.whatIsRoad)) {
             if (!_isTurning) {
                if (instant) {
-                   transform.localEulerAngles = _oRaycastHit.collider.transform.parent.transform.localEulerAngles +
-                                                Vector3.up * -90;
+                   transform.localEulerAngles = 
+                       _oRaycastHit.collider.transform.parent.transform.localEulerAngles + _additionVector;
                } else {
                    StartCoroutine(StartTurn(_oRaycastHit.collider.transform.parent.transform.localEulerAngles +
-                                            Vector3.up * -90));
+                                            _additionVector));
                }
            }
         }
@@ -53,12 +56,11 @@ public class CarMovement : MonoBehaviour {
         }
     }
 
-    private IEnumerator StartTurn(Vector3 endAngles) {
+    private IEnumerator StartTurn(Vector3 endAngles, float lerpCoeff=0.125f) {
         _isTurning = true;
-        Debug.Log($"{transform.localEulerAngles.y} : {endAngles.y} : {Mathf.DeltaAngle(transform.localEulerAngles.y, endAngles.y)}");
         while (Mathf.Abs(Mathf.DeltaAngle(transform.localEulerAngles.y, endAngles.y)) > 0.1f) {
             Vector3 angles = transform.localEulerAngles;
-            angles.y = Mathf.LerpAngle(angles.y, endAngles.y, 0.125f);
+            angles.y = Mathf.LerpAngle(angles.y, endAngles.y, lerpCoeff);
             transform.localEulerAngles = angles;
 
             yield return null;

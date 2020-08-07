@@ -645,7 +645,7 @@ GameObject:
   - component: {fileID: 351654449}
   - component: {fileID: 351654448}
   m_Layer: 5
-  m_Name: Button (3)
+  m_Name: refrigeratorBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -791,6 +791,7 @@ GameObject:
   - component: {fileID: 659023651}
   - component: {fileID: 659023653}
   - component: {fileID: 659023652}
+  - component: {fileID: 659023654}
   m_Layer: 5
   m_Name: Inventory
   m_TagString: Untagged
@@ -858,6 +859,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 659023650}
   m_CullTransparentMesh: 0
+--- !u!114 &659023654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 659023650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e67d556fa2798a4eb75fb5a1a3424ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spitBtn: {fileID: 768353552}
+  mayonnaiseBtn: {fileID: 1431353400}
+  kutchupBtn: {fileID: 1927291969}
+  fridgeBtn: {fileID: 351654448}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -996,7 +1013,7 @@ GameObject:
   - component: {fileID: 768353553}
   - component: {fileID: 768353552}
   m_Layer: 5
-  m_Name: Button
+  m_Name: SpitBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1667,7 +1684,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerController: {fileID: 1458812547}
   carsSpeed: 2
+  whatIsRoad:
+    serializedVersion: 2
+    m_Bits: 256
   level: {fileID: 1888027363}
+  throwItem: {fileID: 1458812548}
 --- !u!1001 &1287954429
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2723,7 +2744,7 @@ GameObject:
   - component: {fileID: 1431353401}
   - component: {fileID: 1431353400}
   m_Layer: 5
-  m_Name: Button (2)
+  m_Name: mayonnaiseBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2928,7 +2949,24 @@ MonoBehaviour:
   _movementSpeed: 1
   _minZPos: -1
   _maxZPos: 1
+--- !u!114 &1458812548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458812546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baacf59a84beddf448cf5d1c5b6056ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  kutchupItem: {fileID: 11400000, guid: e1ec302ad25008047b637f56273eca3d, type: 2}
+  mayonnaiseItem: {fileID: 11400000, guid: b49b4d7a8f124224f9dbcb40d3544a7d, type: 2}
+  spitItem: {fileID: 11400000, guid: 689d0b3e1cff95949bc915ea9fc29e82, type: 2}
   _throwRange: 10
+  _blotPrefab: {fileID: 2746301988250081415, guid: 4b0c2776c23ff5c498198bc418227152,
+    type: 3}
 --- !u!1001 &1523352591
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3508,7 +3546,7 @@ GameObject:
   - component: {fileID: 1927291970}
   - component: {fileID: 1927291969}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: kutchupBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - ChangeDirectionTrigger
   - DeathZone
+  - Car
   layers:
   - Default
   - TransparentFX

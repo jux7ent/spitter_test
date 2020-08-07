@@ -23,7 +23,7 @@ public class Level : MonoBehaviour {
         GameObject carObj = GameManager.instance.objectsPool.Get(objPoolTag);
         if (carObj == null) {
             carObj = Instantiate(carsList[carIndex], selectedSpawner.transform.position, Quaternion.identity);
-            carObj.GetComponent<CarMovement>().SetTagForObjectsPool(objPoolTag);
+            carObj.GetComponent<CarController>().SetTagForObjectsPool(objPoolTag);
         } else {
             carObj.transform.position = selectedSpawner.transform.position;
         }
