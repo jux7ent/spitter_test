@@ -10,6 +10,7 @@ public class SlipInventoryItem : AbstractInventoryItem {
     public float slipRadius = 1f;
 
     public override void UseItemOnPosition(Vector3 position) {
+        --amount;
         CarController carController = FindNearestCarInRadius(position, slipRadius);
         if (carController != null) {
             // TODO

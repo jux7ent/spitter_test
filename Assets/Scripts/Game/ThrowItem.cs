@@ -4,7 +4,7 @@ using System.Numerics;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
-public class ThrowItem : MonoBehaviour {
+public class ThrowItem : MonoBehaviour { // inventory
     public enum ItemType {
         SPIT, KUTCHUP, MAYONNAISE, FRIDGE
     }
@@ -18,8 +18,12 @@ public class ThrowItem : MonoBehaviour {
 
     // optimization
     private RaycastHit _oRaycastHit;
+
+    private void Start() {
+        RestoreSupplies();
+    }
     
-    public void MakeThrow(ItemType type) {
+    public int MakeThrow(ItemType type) {
         GameObject blotObj = GameManager.instance.objectsPool.Get(Constants.ObjectPoolTags.BLOT);
         if (blotObj == null) {
             blotObj = Instantiate(_blotPrefab);
@@ -28,7 +32,15 @@ public class ThrowItem : MonoBehaviour {
         Vector3 posOnRoad = GetPositionOnRoad(transform.position + transform.forward * _throwRange);
 
         blotObj.transform.position = posOnRoad;
-        GetInventoryItem(type).UseItemOnPosition(posOnRoad);
+        var item = GetInventoryItem(type);
+        item.UseItemOnPosition(posOnRoad);
+
+        return item.amount;
+    }
+    
+    private void RestoreSupplies() {
+        kutchupItem.amount = kutchupItem.capacity;
+        mayonnaiseItem.amount = mayonnaiseItem.capacity;
     }
 
     private Vector3 GetPositionOnRoad(Vector3 position) {

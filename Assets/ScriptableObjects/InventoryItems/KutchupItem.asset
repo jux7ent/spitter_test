@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: KutchupItem
   m_EditorClassIdentifier: 
   isLiquid: 1
-  capacity: 200
+  capacity: 3
   slipProbability: 0.1
   slipRadius: 1

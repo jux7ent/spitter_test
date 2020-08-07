@@ -20,8 +20,6 @@ public class CarController : MonoBehaviour {
         _rigidbody.angularVelocity = Vector3.zero;
         
         _isTurning = false;
-     //   CheckAndSetDirectionByGround(true); // after obj pool should set rotation
-       // transform.position = GameManager.instance.level.GetSpawnerPositionInRange(transform.position, 2f);
        StartCoroutine(Misc.WaitAndDo(0.01f, () => CheckAndSetDirectionByGround(true)));
     }
     

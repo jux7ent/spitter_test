@@ -11,7 +11,7 @@ public class Level : MonoBehaviour {
     [SerializeField] private float _spawnProbaForRareCar = 0.1f;
 
     public float spawnDelaySec = 3f;
-    
+
     public void SpawnCar() { // это бы вынести в отдельный спавнер
         int spawnerId = Random.Range(0, _carSpawners.Length);
         GameObject selectedSpawner = _carSpawners[spawnerId];

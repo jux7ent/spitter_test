@@ -11,19 +11,27 @@ public class Inventory : MonoBehaviour {
 
     private void Start() {
         spitBtn.onClick.AddListener(() => {
-            GameManager.instance.throwItem.MakeThrow(ThrowItem.ItemType.SPIT);
+            if (GameManager.instance.throwItem.MakeThrow(ThrowItem.ItemType.SPIT) == 0) {
+                spitBtn.gameObject.SetActive(false);
+            }
         });
         
         kutchupBtn.onClick.AddListener(() => {
-            GameManager.instance.throwItem.MakeThrow(ThrowItem.ItemType.KUTCHUP);
+            if (GameManager.instance.throwItem.MakeThrow(ThrowItem.ItemType.KUTCHUP) == 0) {
+                kutchupBtn.gameObject.SetActive(false);
+            }
         });
         
         mayonnaiseBtn.onClick.AddListener(() => {
-            GameManager.instance.throwItem.MakeThrow(ThrowItem.ItemType.MAYONNAISE);
+            if (GameManager.instance.throwItem.MakeThrow(ThrowItem.ItemType.MAYONNAISE) == 0) {
+                mayonnaiseBtn.gameObject.SetActive(false);
+            }
         });
         
         fridgeBtn.onClick.AddListener(() => {
-            GameManager.instance.throwItem.MakeThrow(ThrowItem.ItemType.FRIDGE);
+            if (GameManager.instance.throwItem.MakeThrow(ThrowItem.ItemType.FRIDGE) == 0) {
+                fridgeBtn.gameObject.SetActive(false);
+            }
         });
     }
 }
